@@ -50,3 +50,7 @@ spring:
           uri: lb://ORDER-PROCESSOR
           predicates:
             - Path=/processor/**
+        - id: notifier
+          uri: lb://ORDER-NOTIFIER
+          predicates:
+            - Path=/notifier/**
