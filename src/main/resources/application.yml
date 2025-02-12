@@ -1,0 +1,48 @@
+application:
+  version: 1.0.0
+
+server:
+  forward-headers-strategy: NATIVE
+  port: 8765
+
+eureka:
+  instance:
+    hostname: localhost
+    instance-id: ${spring.application.name}:${instanceId:${random.value}}
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - '*'
+
+spring:
+  application:
+    name: order-api-gateway
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOriginPatterns:
+              - "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+            allowedHeaders: "*"
+            allowCredentials: true
+            maxAge: 3600
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: orders
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/orders/**
