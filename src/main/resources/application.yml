@@ -46,3 +46,7 @@ spring:
           uri: lb://ORDER-SERVICE
           predicates:
             - Path=/orders/**
+        - id: processor
+          uri: lb://ORDER-PROCESSOR
+          predicates:
+            - Path=/processor/**
